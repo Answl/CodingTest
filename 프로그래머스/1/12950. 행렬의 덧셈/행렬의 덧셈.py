@@ -1,5 +1,5 @@
 def solution(arr1, arr2):
-    answer = []; answer2 = []
+    answer = [];
     for a1, a2 in zip(arr1, arr2):
         answer2 = []
         for aa1, aa2 in zip(a1, a2):
