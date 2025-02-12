@@ -12,7 +12,7 @@ This is an auto push repository for Baekjoon Online Judge created with [Baekjoon
 - **strip()** : 문자열 또는 공백을 모두 제거
 - replace(원래, 대체) : **문자열, 리스트**을 변경하는 함수
 - count(찾는 요소) : **문자열, 리스트** 안에서 찾고싶은 문자의 개수
-  
+- **f**'**{}**'.. ex) f'문자열 {변수} 문자열'
 - n진수 → 10진수 : int(string, base)
 - 10진수 -> 2,8,16진수 : bin(), oct(), hex() 
 
