@@ -7,8 +7,8 @@ public class Main {
         int b = sc.nextInt();
         sc.close();
 
-        System.out.println(a*((b%100)%10));
-        System.out.println(a*((b%100)/10));
+        System.out.println(a*(b%10));
+        System.out.println(a*((b/10)%10));
         System.out.println(a*(b/100));
         System.out.println(a*b);
     }
