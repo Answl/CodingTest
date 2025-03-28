@@ -5,11 +5,8 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int n = Integer.parseInt(br.readLine());
-        int totalN = 0;
 
-        for (int i=1;i<=n;i++){
-            totalN += i;
-        }
+        int totalN = n*(n+1)/2;
         System.out.println(totalN);
     }
 }
