@@ -8,22 +8,10 @@ public class Main {
         String st = br.readLine();
         int count = 0;
 
-        ArrayList<String> als = new ArrayList<>(Arrays.asList("c=","c-","dz=","d-","lj","nj","s=","z="));
-        for(int i=0; i<st.length(); i++){
-            String st_word = "" + st.charAt(i);
-            if(i+1 < st.length()) st_word += st.charAt(i+1);
-            
-            if(i+2 < st.length() && st_word.equals("dz") && st.charAt(i+2)=='='){
-                i+=2;
-                count++;
-            }else if(als.contains(st_word)) {
-                i++;
-                count++;
-            }else{
-                count++;
-            }
+        String[] st_cro = {"c=","c-","dz=","d-","lj","nj","s=","z="};
+        for(String cro : st_cro){
+            st = st.replace(cro, "A");
         }
-
-        System.out.println(count);
+        System.out.println(st.length());
     }
 }
