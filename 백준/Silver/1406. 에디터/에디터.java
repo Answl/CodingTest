@@ -1,48 +1,50 @@
-import java.io.*;
 import java.util.*;
+import java.lang.*;
+import java.io.*;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String initialString = br.readLine();  // 초기 문자열 입력
-        int M = Integer.parseInt(br.readLine()); // 명령어 개수 입력
+        String st = br.readLine();
+        int M = Integer.parseInt(br.readLine());
         
-        LinkedList<Character> editor = new LinkedList<>();
-        for (char ch : initialString.toCharArray()) {
-            editor.add(ch);  // 초기 문자열을 LinkedList에 삽입
+        LinkedList<Character> st_list = new LinkedList<>();
+        for (char ch : st.toCharArray()){
+            st_list.add(ch);
         }
 
-        ListIterator<Character> cursor = editor.listIterator(editor.size()); // 커서를 맨 뒤로 이동
-        
-        for (int i = 0; i < M; i++) {
-            String command = br.readLine();
-            char op = command.charAt(0);
+        ListIterator<Character> cur = st_list.listIterator(st_list.size());
+        for(int i=0; i<M; i++){
+            String oneLine = br.readLine();
+            char c = oneLine.charAt(0);
 
-            switch (op) {
-                case 'L':  // 왼쪽 이동
-                    if (cursor.hasPrevious()) cursor.previous();
-                    break;
-                case 'D':  // 오른쪽 이동
-                    if (cursor.hasNext()) cursor.next();
-                    break;
-                case 'B':  // 왼쪽 문자 삭제
-                    if (cursor.hasPrevious()) {
-                        cursor.previous();
-                        cursor.remove();
+            switch(c){
+                case 'L':
+                    if(cur.hasPrevious()){
+                        cur.previous();
                     }
                     break;
-                case 'P':  // 문자 추가
-                    char addChar = command.charAt(2);
-                    cursor.add(addChar);
+                case 'D':
+                    if(cur.hasNext()){
+                        cur.next();
+                    }
                     break;
+                case 'B':
+                    if(cur.hasPrevious()){
+                        cur.previous();
+                        cur.remove();
+                    }
+                    break;
+                case 'P':
+                    cur.add(oneLine.charAt(2));
             }
         }
         
-        StringBuilder result = new StringBuilder();
-        for (char ch : editor) {
-            result.append(ch);
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        for (char ch : st_list){
+            bw.write(ch);
         }
-        
-        System.out.println(result);
+        bw.flush();
+        bw.close();
     }
 }
