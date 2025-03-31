@@ -13,16 +13,16 @@ public class Main {
             boolean isGroupWord = true;
 
             String st = br.readLine();
-            Set<Character> hs = new HashSet<>();
+            boolean[] isVisited = new boolean[26];
             for(int j=0; j<st.length(); j++){
                 if(j>0 && st.charAt(j)==st.charAt(j-1)){
                     continue;
                 }
-                if(hs.contains(st.charAt(j))){
+                if(isVisited[st.charAt(j)-'a']){
                     isGroupWord = false;
                     break;
                 }
-                hs.add(st.charAt(j));
+                isVisited[st.charAt(j)-'a']=true;
             }
             if(isGroupWord) count+=1;
             
