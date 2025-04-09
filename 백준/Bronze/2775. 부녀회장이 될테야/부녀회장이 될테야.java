@@ -12,19 +12,17 @@ public class Main {
         for(int i=1; i<=14; i++){
             dp[0][i]=i;
         }
+
+        for(int a=1; a<=14; a++){
+            for(int b=1; b<=14; b++){
+                dp[a][b]=dp[a-1][b]+dp[a][b-1];
+            }
+        }
         
         for(int t=0; t<T; t++){
             int k = Integer.parseInt(br.readLine());
             int n = Integer.parseInt(br.readLine());
-            apartment(k,n);
+            System.out.println(dp[k][n]);
         }
-    }
-    public static void apartment(int k, int n){
-        for(int a=1; a<=k; a++){
-            for(int b=1; b<=n; b++){
-                dp[a][b]=dp[a-1][b]+dp[a][b-1];
-            }
-        }
-        System.out.println(dp[k][n]);
     }
 }
