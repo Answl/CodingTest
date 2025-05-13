@@ -1,31 +1,42 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
-//sol. bit masking
+//sol. dfs
 public class Main {
+    static int N, S, count;
+    static int[] nums;
+    static boolean[] visited;
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int N = Integer.parseInt(st.nextToken());
-        int S = Integer.parseInt(st.nextToken());
-        int[] nums = new int[N];
+        N = Integer.parseInt(st.nextToken());
+        S = Integer.parseInt(st.nextToken());
+        nums = new int[N];
 
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < N; i++) {
             nums[i] = Integer.parseInt(st.nextToken());
         }
-
-        int count = 0;
-        for (int i = 1; i < 1 << N; i++) {
-            int total = 0;
-            for (int j = 0; j < N; j++) {
-                if ((i & (1 << j)) != 0) {
-                    total += nums[j];
-                }
-            }
-            if(total == S) count++;
+        for(int i = 0; i < N; i++){
+            dfs(i, nums[i]);
         }
         System.out.println(count);
+    }
+
+    static void dfs(int idx, int sum) {
+        if(sum == S){
+            count++;
+        }
+        if(idx == N-1){
+            return;
+        }
+
+        for(int i = 1; i+idx < N; i++){
+            dfs(i + idx, sum + nums[i+idx]);
+        }
     }
 }
