@@ -1,0 +1,36 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
+
+        int[] boss =  new int[n+1];
+        int[] dp = new int[n + 1];
+
+        st = new StringTokenizer(br.readLine());
+        for(int i=1; i<n+1; i++){
+            int num = Integer.parseInt(st.nextToken());
+            if(num != -1) boss[i] = num;
+            //System.out.println(boss[i]);
+        }
+
+        for(int i=0; i<m; i++){
+            st = new StringTokenizer(br.readLine());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            dp[a] += b;
+            //System.out.println(dp[boss[a]]);
+            //dp[a] = dp[boss[a]] + b;
+        }
+        for(int i=1; i<n+1; i++){
+            dp[i] = dp[boss[i]] + dp[i];
+        }
+        for(int i=1; i<n+1; i++){
+            System.out.print(dp[i] + " ");
+        }
+    }
+}
