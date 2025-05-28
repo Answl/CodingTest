@@ -1,6 +1,6 @@
 import java.util.*;
 import java.io.*;
-public class Main {
+public class Main{
     static int N;
     static int M;
     static int[] dr = {0,0,-1,1};
@@ -93,34 +93,34 @@ public class Main {
                 int blueDist = Math.abs(curbR - nextbR) + Math.abs(curbC - nextbC);
 
                 // 많이 움직인거 기준으로 -(반대) 방향으로 움직여
-                if (nextrR == nextbR && nextrC == nextbC) {
-                    if (redDist < blueDist) {
-                        nextbR -= dr[i];
-                        nextbC -= dc[i];
-                    } else {
-                        nextrR -= dr[i];
-                        nextrC -= dc[i];
-                    }
-                }
-//                if(nextrR == nextbR && nextrC == nextbC){
-//                    //row
-//                    if(dr[i] == -1){
-//                        if(currR > curbR) nextrR += 1;
-//                        else if(currR < curbR) nextbR += 1;
-//                    }
-//                    if(dr[i] == 1){
-//                        if(currR > curbR) nextbR -= 1;
-//                        else if(currR < curbR) nextrR -= 1;
-//                    }
-//                    if(dc[i] == -1){
-//                        if(currC > curbC) nextrC += 1;
-//                        else if(currC < curbC) nextbC += 1;
-//                    }
-//                    if(dc[i] == 1){
-//                        if(currC > curbC) nextbC -= 1;
-//                        else if(currC < curbC) nextrC -= 1;
+//                if (nextrR == nextbR && nextrC == nextbC) {
+//                    if (redDist < blueDist) {
+//                        nextbR -= dr[i];
+//                        nextbC -= dc[i];
+//                    } else {
+//                        nextrR -= dr[i];
+//                        nextrC -= dc[i];
 //                    }
 //                }
+                if(nextrR == nextbR && nextrC == nextbC){
+                    //row
+                    if(dr[i] == -1){
+                        if(currR > curbR) nextrR += 1;
+                        else if(currR < curbR) nextbR += 1;
+                    }
+                    if(dr[i] == 1){
+                        if(currR > curbR) nextbR -= 1;
+                        else if(currR < curbR) nextrR -= 1;
+                    }
+                    if(dc[i] == -1){
+                        if(currC > curbC) nextrC += 1;
+                        else if(currC < curbC) nextbC += 1;
+                    }
+                    if(dc[i] == 1){
+                        if(currC > curbC) nextbC -= 1;
+                        else if(currC < curbC) nextrC -= 1;
+                    }
+                }
 
                 //큐에 넣기
                 if (!visited[nextrR][nextrC][nextbR][nextbC]) {
