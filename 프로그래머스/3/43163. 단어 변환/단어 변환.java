@@ -1,40 +1,44 @@
 import java.util.*;
 class Solution {
     public int solution(String begin, String target, String[] words) {
-        boolean existsTg = false;
-        for(int i = 0; i < words.length ; i++){
-            if(words[i].equals(target)) existsTg = true;
+        boolean exists = false;
+        for(String word : words){
+            if(word.equals(target)) {
+                exists = true; break;
+            }
         }
-        //없으면 
-        if(!existsTg) return 0;
+        if(!exists) return 0; 
+        int size = words.length +1;
         
-        Queue<int []> q = new ArrayDeque<>();
-        boolean[] visited = new boolean[words.length];
-        q.offer(new int[]{-1, 0});
+        List<String> wordsList = new ArrayList<>(Arrays.asList(words));
+        wordsList.add(0, begin);
+        
+        Queue<int[]> q = new ArrayDeque<>();
+        boolean[] visited = new boolean[size];
+        q.offer(new int[]{0, 0});
+        visited[0] = true;
         while(!q.isEmpty()){
             int[] cur = q.poll();
+            int curWord = cur[0], curStep = cur[1];
+            //System.out.println(wordsList.get(curWord));
+            if(wordsList.get(curWord).equals(target)) return curStep;
             
-            String curWord = (cur[0] == -1) ? begin : words[cur[0]];
-            int curStep = cur[1];
-            
-            if(curWord.equals(target)) return curStep;
-            
-            for(int i = 0; i < words.length ; i++){
-                //한글자 빼고 같으면
-                if(canChange(curWord, words[i])){
+            for(int i=0; i<size; i++){
+                //System.out.println(diffOne(wordsList.get(i), wordsList.get(curWord)));
+                if(diffOne(wordsList.get(i), wordsList.get(curWord)) && !visited[i]){
                     q.offer(new int[]{i, curStep+1});
-                    visited[i] = true;
+                    visited[curWord] = true;
                 }
             }
         }
-        
         return 0;
     }
-    private boolean canChange(String start, String end){
-        int notSameCnt = 0;
-        for(int i = 0; i < start.length() ; i++){
-            if(start.charAt(i) != end.charAt(i)) notSameCnt += 1;
+    private boolean diffOne(String s1, String s2){
+        int count = 0;
+        for(int i=0;i<s1.length(); i++){
+            if(s1.charAt(i)!=s2.charAt(i)) count ++;
+            if(count >= 2) return false;
         }
-        return (notSameCnt == 1) ? true : false;
+        return true;
     }
 }
