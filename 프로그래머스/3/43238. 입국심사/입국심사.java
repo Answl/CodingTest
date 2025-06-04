@@ -6,7 +6,8 @@ class Solution {
             max = Math.max(max, time);
         }
         
-        long s = times[0], e = (n / times.length +1) * max, mid;
+        long s = times[0], e = (long) n * max, mid;
+        // **upper bound는 무조건 “정답이 포함되는 충분히 큰 값”**으로 잡는 게 안전
         while(s <= e) {
             mid = (s+e) /2;
             long sum = 0;
