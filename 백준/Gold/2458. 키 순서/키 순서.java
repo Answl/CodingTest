@@ -26,51 +26,29 @@ public class Main {
 
         int count = 0;
         for(int i=0; i<N; i++){
-            if(goNode(heightList, i, N) + comeNode(reverseList, i, N) == N-1) count ++;
+            Queue<Integer> q = new ArrayDeque<>();
+            boolean[] visited = new boolean[N];
+            if(checkNode(heightList, i, q, visited) + checkNode(reverseList, i, q, visited) == N-1) count ++; //가는거 //오는거
         }
         System.out.println(count);
     }
 
-    static private int goNode(List<List<Integer>> heightList, int start, int N){
-        int goNodeCnt = 0;
-
-        Queue<Integer> q = new ArrayDeque<>();
-        boolean[] visited = new boolean[N];
-        q.offer(start);
-        visited[start] = true;
-
-        while(!q.isEmpty()){
-            int cur = q.poll();
-            for(Integer i : heightList.get(cur)){
-                if(!visited[i]) {
-                    q.offer(i);
-                    visited[i] = true;
-                    goNodeCnt ++;
-                }
-            }
-        }
-        return goNodeCnt;
-    }
-
-    static private int comeNode(List<List<Integer>> reverseList, int start, int N){
-        int comeNodeCnt = 0;
-
-        Queue<Integer> q = new ArrayDeque<>();
-        boolean[] visited = new boolean[N];
+    static private int checkNode(List<List<Integer>> list, int start, Queue<Integer> q, boolean[] visited){
+        int checkNodeCnt = 0;
 
         q.offer(start);
         visited[start] = true;
 
         while(!q.isEmpty()){
             int cur = q.poll();
-            for(Integer i : reverseList.get(cur)){
+            for(Integer i : list.get(cur)){
                 if(!visited[i]) {
                     q.offer(i);
                     visited[i] = true;
-                    comeNodeCnt ++;
+                    checkNodeCnt ++;
                 }
             }
         }
-        return comeNodeCnt;
+        return checkNodeCnt;
     }
 }
