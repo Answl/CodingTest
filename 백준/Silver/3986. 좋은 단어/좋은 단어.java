@@ -13,6 +13,9 @@ public class Main {
             Deque<Character> stack = new ArrayDeque<>();
             char[] chars = br.readLine().toCharArray();
 
+            //짝수여야함
+            if(chars.length % 2 != 0) continue;
+            
             for (char c : chars) {
                 //여는거(처음짝) -> 없거나 pop한거랑 다른거면 넣어
                 if (stack.isEmpty() || stack.peek() != c) {
