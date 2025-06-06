@@ -12,20 +12,19 @@ public class Main {
         for(int i = 0; i < n; i++) {
             Deque<Character> stack = new ArrayDeque<>();
             char[] chars = br.readLine().toCharArray();
-            if(chars.length % 2 == 0) { //길이가 짝수면 돌리기
-                for (char c : chars) {
-                    //여는거(처음짝) -> 없거나 pop한거랑 다른거면 넣어
-                    if (stack.isEmpty() || stack.peek() != c) {
-                        stack.push(c);
-                    }
-                    //닫는거(두번짝) -> pop한거랑 같으면 빼
-                    else if (!stack.isEmpty() && stack.peek() == c) {
-                        stack.pop();
-                    }
+
+            for (char c : chars) {
+                //여는거(처음짝) -> 없거나 pop한거랑 다른거면 넣어
+                if (stack.isEmpty() || stack.peek() != c) {
+                    stack.push(c);
                 }
-                if (stack.isEmpty()) {
-                    count++;
+                //닫는거(두번짝)
+                else {
+                    stack.pop();
                 }
+            }
+            if (stack.isEmpty()) {
+                count++;
             }
         }
         System.out.println(count);
