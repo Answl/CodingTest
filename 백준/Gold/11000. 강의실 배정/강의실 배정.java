@@ -17,21 +17,11 @@ public class Main {
             int e = Integer.parseInt(st.nextToken());
             reqQ.offer(new int[]{s, e});
         }
-        //System.out.println(reqQ);
         Queue<Integer> resQ = new PriorityQueue<>((a,b) -> a - b);
-        int[] f = reqQ.poll();
-        resQ.offer(f[1]);
 
         while(!reqQ.isEmpty()){
-            //System.out.println(resQ);
             int[] cur = reqQ.poll();
-            //System.out.println(Arrays.toString(cur));
-            //if(resQ.isEmpty() || cur[0] >= resQ.peek())
-            if(!resQ.isEmpty() && cur[0] < resQ.peek()) {
-            }
-            else {
-                resQ.poll();
-            }
+            if(resQ.isEmpty() || cur[0] >= resQ.peek()) resQ.poll();
             resQ.offer(cur[1]);
         }
         System.out.println(resQ.size());
