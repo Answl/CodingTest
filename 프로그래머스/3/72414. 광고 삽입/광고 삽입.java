@@ -1,55 +1,40 @@
-import java.util.*;
 class Solution {
-    public String solution(String play, String adv, String[] logs) {
-        String answer = "";
-        int pSize = strToint(play);
-        int aSize = strToint(adv);
+    public String solution(String play_time, String adv_time, String[] logs) {
+        int pSize = strToint(play_time);
+        int aSize = strToint(adv_time);
         
-        int[] init = new int[pSize+2];
-        long[] dp = new long[pSize+2];
-        
-        for(int i=0; i<logs.length; i++){
-            String[] sArr = logs[i].split("-");
-            String start = sArr[0], end = sArr[1];
-            init[strToint(start)]++;
-            init[strToint(end)]--;
+        long[] initArr = new long[pSize+1];
+        long[] sumArr = new long[pSize+1];
+        for(String log : logs){
+            String[] logArr = log.split("-");
+            initArr[strToint(logArr[0])] ++;
+            initArr[strToint(logArr[1])] --;
+        }
+        for(int i=1; i<=pSize; i++){
+            initArr[i] += initArr[i-1];
+            sumArr[i] = initArr[i] + sumArr[i-1];
         }
         
-        for(int i=1; i<pSize; i++){
-            init[i] += init[i-1];
-            dp[i] = dp[i-1] + init[i];
-        }
-        
-        long max = dp[aSize-1], idx = 0;
+        long max = sumArr[aSize], idx = 0;
         for(int i=aSize; i<=pSize; i++){
-            if(max < dp[i] - dp[i-aSize]){
-                max = dp[i] - dp[i-aSize];
-                idx = (i-aSize) + 1;
+            if(max < sumArr[i] - sumArr[i-aSize]) {
+                max = sumArr[i] - sumArr[i-aSize];
+                idx = i-aSize +1;
             }
         }
-        
-        return intTostr(idx) ;
+        return longToStr(idx);
     }
-    
     private int strToint(String s){
         String[] sArr = s.split(":");
-        return 3600*Integer.parseInt(sArr[0]) 
-            + 60*Integer.parseInt(sArr[1]) 
+        return 3600 * Integer.parseInt(sArr[0])
+            + 60 * Integer.parseInt(sArr[1])
             + Integer.parseInt(sArr[2]);
     }
     
-    private String intTostr(long i){
-        String hour = String.valueOf(i/3600);
-        String minute = String.valueOf((i%3600) / 60);
-        String second = String.valueOf(i % 60);
-        
-        if(hour.length() == 1) hour = "0" + hour;
-        if(minute.length() == 1) minute = "0" + minute;
-        if(second.length() == 1) second = "0" + second;
-        
-        return hour + ":" + minute + ":" + second;
+    private String longToStr(long l){
+        long h = l / 3600;
+        long m = ( l % 3600 ) / 60;
+        long s = l % 60;
+        return String.format("%02d:%02d:%02d", h, m, s);
     }
 }
-
-// 1 2 3 
-// 1 3 6
