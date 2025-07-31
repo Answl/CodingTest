@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main {
+    static int step = 0, max = 0;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -15,10 +16,7 @@ public class Main {
         int M = Integer.parseInt(st.nextToken());
 
         List<Integer> positive = new ArrayList<>();
-        List<Integer> positiveMemo = new ArrayList<>();
-
         List<Integer> negative = new ArrayList<>();
-        List<Integer> negativeMemo = new ArrayList<>();
 
         st = new StringTokenizer(br.readLine());
         for(int i=0;i<N;i++){
@@ -30,31 +28,29 @@ public class Main {
         Collections.sort(positive, (a, b) -> b - a);
         Collections.sort(negative);
 
-        for(int i=0;i < positive.size(); i++){
-            if(i%M == 0){
-                positiveMemo.add(positive.get(i));
-            }
-        }
+        List<Integer> positiveMemo = extractMemo(positive, M);
+        List<Integer> negativeMemo = extractMemo(negative, M);
+        
+        calculateValue(positiveMemo);
+        calculateValue(negativeMemo);
 
-        for(int i=0;i<negative.size();i++){
+        System.out.println(step - max);
+    }
+    
+    private static List<Integer> extractMemo(List<Integer> list, int M){
+        List<Integer> memoList = new ArrayList<>();
+        for(int i=0;i<list.size();i++){
             if(i%M == 0){
-                negativeMemo.add(negative.get(i));
+                memoList.add(list.get(i));
             }
         }
-        
-        int step = 0;
-        int max = 0;
-        for(int i=0;i<negativeMemo.size();i++){
-            step += Math.abs(negativeMemo.get(i))*2;
-            max = Math.max(max,Math.abs(negativeMemo.get(i)));
+        return memoList;
+    }
+    
+    private static void calculateValue(List<Integer> memoList){
+        for(int i=0;i<memoList.size();i++){
+            step += Math.abs(memoList.get(i))*2;
+            max = Math.max(max,Math.abs(memoList.get(i)));
         }
-        for(int i=0;i<positiveMemo.size();i++){
-            step += positiveMemo.get(i)*2;
-            max = Math.max(max,positiveMemo.get(i));
-        }
-        
-//        System.out.println(negativeMemo);
-//        System.out.println(positiveMemo);
-        System.out.println(step-max);
     }
 }
