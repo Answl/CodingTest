@@ -8,7 +8,8 @@ class Solution {
             int size = ban.length();
             long word = 0;
             for(int i=0; i<size; i++){
-                word += (ban.charAt(i) - 'a' + 1) * Math.pow(26, (size-i-1));
+                long num = (long) ((ban.charAt(i) - 'a' + 1) * Math.pow(26, (size-i-1))); 
+                word += num;
             }
             banList.add(word);
         }
