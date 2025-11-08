@@ -29,33 +29,29 @@ public class Main {
             sum[0][0] = cave[0][0];
 
             //구현
-            //Queue<int[]> q = new PriorityQueue<>((a,b) -> a[2]-b[2]);
             Queue<int[]> q = new ArrayDeque<>();
             q.offer(new int[]{0, 0, cave[0][0]});
 
             while(!q.isEmpty()){
                 int[] cur = q.poll();
                 int r = cur[0], c = cur[1], w = cur[2];
-//                System.out.println(Arrays.deepToString(sum));
 
-                //종료
+                //skip
+                if(sum[r][c] < w) continue;
                 if(r == N-1 && c == N-1) continue;
 
                 for(int i=0; i<4; i++){
                     int nr = r + dr[i], nc = c + dc[i];
                     if(!(nr >= 0 && nr < N && nc >= 0 && nc < N)) continue;
-                    
+
                     int nw = w + cave[nr][nc];
                     if(sum[nr][nc] <= nw) continue;
-
-//                    System.out.print(nr + " " + nc + " " + (w+cave[nr][nc]));
-//                    System.out.println();
                     sum[nr][nc] = nw;
+
                     q.offer(new int[]{nr, nc, sum[nr][nc]});
                 }
             }
             sb.append("Problem " + count++ + ": " + sum[N-1][N-1]).append("\n");
-//            System.out.println(sb);
         }
         System.out.println(sb);
     }
