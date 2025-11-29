@@ -19,7 +19,6 @@ public class Main {
             }
         }
         Collections.sort(students, (a,b) -> a[1]-b[1]);
-//        for(int[] student : students) System.out.println(Arrays.toString(student));
 
         int[] existTeam = new int[N];
         int start = 0, end = 0;
@@ -27,14 +26,14 @@ public class Main {
 
         long min = Long.MAX_VALUE;
 
+        int teamCount = 1;
         while(start <= end){
             //모두 있으면
-            if(existAll(existTeam)){
-//                System.out.println(Arrays.toString(existTeam));
-
+            if(teamCount == N){
                 min = Math.min(min, students.get(end)[1]-students.get(start)[1]);
-//                System.out.println(min + " " + start + " " + end);
+
                 existTeam[students.get(start)[0]] --;
+                if(existTeam[students.get(start)[0]] == 0) teamCount --;
                 start ++;
             }
             //없으면
@@ -42,15 +41,10 @@ public class Main {
                 if(end == N*M-1) break;
 
                 end ++;
+                if(existTeam[students.get(end)[0]] == 0) teamCount ++;
                 existTeam[students.get(end)[0]] ++;
             }
         }
         System.out.println(min);
-    }
-    private static boolean existAll(int[] existTeam){
-        for(int team : existTeam){
-            if(team == 0) return false;
-        }
-        return true;
     }
 }
