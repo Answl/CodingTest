@@ -4,61 +4,58 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
+    public static class Ball {
+        int idx, color, size, result;
+
+        Ball(int idx, int color, int size){
+            this.idx = idx;
+            this.color = color;
+            this.size = size;
+        }
+    }
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
         int N = Integer.parseInt(br.readLine());
 
-        List<int[]> balls = new ArrayList<>();
+        List<Ball> balls = new ArrayList<>();
         for(int i=0; i<N; i++){
             StringTokenizer st = new StringTokenizer(br.readLine());
-            //balls : 인덱스, 컬러, 사이즈, 값
-            balls.add(new int[]{i, Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), 0});
+            balls.add(new Ball(i, Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())));
         }
 
         Collections.sort(balls, (a,b)->{
-            if(a[2]==b[2]){
-                return a[1]-b[1];
-            }
-            return a[2]-b[2];
+            if(a.size == b.size) return a.color-b.color;
+            return a.size - b.size;
         });
 
-        int[] sum = new int[N+1], colorSum = new int[N+1];
+        int[] sum = new int[N+1];
+        int[] colorSum = new int[N+1];
         int[] sizeSum = new int[2001];
 
         // 0
-        colorSum[balls.get(0)[1]] = balls.get(0)[2];
-        sizeSum[balls.get(0)[2]] ++;
+        Ball ball0 = balls.get(0);
+        colorSum[ball0.color] = ball0.size;
+        sizeSum[ball0.size] ++;
 
         // 1 ~ N
         for(int i=1; i<N; i++){
-            sum[i] = sum[i-1] + balls.get(i-1)[2];
+            Ball cur = balls.get(i), prev = balls.get(i-1);
+            sum[i] = sum[i-1] + prev.size;
 
-            //계산
-            if(balls.get(i-1)[2] == balls.get(i)[2] && balls.get(i-1)[1] == balls.get(i)[1]){
-                balls.get(i)[3] = balls.get(i-1)[3];
-            } else balls.get(i)[3] = sum[i] - colorSum[balls.get(i)[1]] - sizeSum[balls.get(i)[2]] * balls.get(i)[2];
+            // result 계산
+            if(prev.size == cur.size && prev.color == cur.color) cur.result = prev.result;
+            else cur.result = sum[i] - colorSum[cur.color] - sizeSum[cur.size] * cur.size;
 
-            //이후 작업
-            colorSum[balls.get(i)[1]] += balls.get(i)[2];
-            sizeSum[balls.get(i)[2]] ++;
-
-//            System.out.println(sum[i]);
-//            System.out.println(Arrays.toString(colorSum));
-//            System.out.println(Arrays.toString(sizeSum));
+            // 이후 작업
+            colorSum[cur.color] += cur.size;
+            sizeSum[cur.size] ++;
         }
 
         // 출력
-        Collections.sort(balls, (a,b)-> a[0] - b[0]);
-        for(int[] ball : balls) sb.append(ball[3]).append("\n");
+        Collections.sort(balls, (a,b)-> a.idx - b.idx);
+        for(Ball ball : balls) sb.append(ball.result).append("\n");
 
         System.out.println(sb);
     }
 }
-//6
-//        1 3
-//        4 8
-//        1 10
-//        1 10
-//        3 10
-//        3 15
