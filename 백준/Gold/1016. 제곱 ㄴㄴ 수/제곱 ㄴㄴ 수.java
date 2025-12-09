@@ -1,0 +1,35 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        long min = Long.parseLong(st.nextToken()), max = Long.parseLong(st.nextToken());
+        long count = max - min + 1;
+
+        boolean[] visited = new boolean[(int) count];
+        for(long i=2; i*i<=max; i++) {
+            if(!isPrime(i)) continue;
+
+            long power = i*i;
+            for(long j=min/power; power*j<=max; j++){
+                if(power*j < min) continue;
+
+                if(!visited[(int)(power*j-min)]){
+                    visited[(int)(power*j-min)] = true;
+                    count--;
+                }
+            }
+        }
+
+        System.out.println(count);
+    }
+    private static boolean isPrime(long n){
+        for(int i=2; i<=Math.sqrt(n); i++){
+            if(n%i==0) return false;
+        }
+        return true;
+    }
+}
