@@ -11,12 +11,10 @@ public class Main {
 
         boolean[] visited = new boolean[(int) count];
         for(long i=2; i*i<=max; i++) {
-            if(!isPrime(i)) continue;
-
             long power = i*i;
             for(long j=min/power; power*j<=max; j++){
                 if(power*j < min) continue;
-
+                
                 if(!visited[(int)(power*j-min)]){
                     visited[(int)(power*j-min)] = true;
                     count--;
@@ -25,11 +23,5 @@ public class Main {
         }
 
         System.out.println(count);
-    }
-    private static boolean isPrime(long n){
-        for(int i=2; i<=Math.sqrt(n); i++){
-            if(n%i==0) return false;
-        }
-        return true;
     }
 }
