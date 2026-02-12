@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -19,14 +18,16 @@ public class Main {
     };
     static int[][] diff = new int[10][10];
 
+    static int N, K, P, X;
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int N = Integer.parseInt(st.nextToken()); //1부터 n까지
-        int K = Integer.parseInt(st.nextToken()); //자릿수
-        int P = Integer.parseInt(st.nextToken()); //최대 반전 수
-        int X = Integer.parseInt(st.nextToken()); //현재 층
+        N = Integer.parseInt(st.nextToken()); //1부터 n까지
+        K = Integer.parseInt(st.nextToken()); //자릿수
+        P = Integer.parseInt(st.nextToken()); //최대 반전 수
+        X = Integer.parseInt(st.nextToken()); //현재 층
 
         for(int i=0; i<10; i++){
             for(int j=0; j<10; j++){
@@ -34,28 +35,28 @@ public class Main {
             }
         }
 
-        //자릿수 보정
-        String curFloor = Integer.toString(X);
-        while(curFloor.length() < K){
-            curFloor = "0" + curFloor;
+        //10의 거듭제곱 계산
+        int[] pow10 = new int[K+1];
+        pow10[0] = 1;
+        for(int i=1; i<=K; i++){
+            pow10[i] = pow10[i-1]*10;
         }
-        //System.out.println(curFloor);
 
         int result = 0;
         for(int i=1; i<=N; i++){
             if(i == X) continue;
 
-            String iFloor = Integer.toString(i);
-            while(iFloor.length() < K){
-                iFloor = "0" + iFloor;
-            }
-
             int change = 0;
             for(int j=0; j<K; j++){
-                change += diff[iFloor.charAt(j)-'0'][curFloor.charAt(j)-'0'];
+                int cur = (X/pow10[j])%10;
+                int tmp = (i/pow10[j])%10;
+
+                change += diff[cur][tmp];
+
                 if(change > P) break;
             }
-            if(change <= P) result ++;
+
+            if(change > 0 && change <= P) result ++;
         }
         System.out.println(result);
     }
