@@ -35,24 +35,20 @@ public class Main {
             }
         }
 
-        //10의 거듭제곱 계산
-        int[] pow10 = new int[K+1];
-        pow10[0] = 1;
-        for(int i=1; i<=K; i++){
-            pow10[i] = pow10[i-1]*10;
-        }
-
         int result = 0;
         for(int i=1; i<=N; i++){
             if(i == X) continue;
 
             int change = 0;
+            int tmpX = X, tmpi = i;
             for(int j=0; j<K; j++){
-                int cur = (X/pow10[j])%10;
-                int tmp = (i/pow10[j])%10;
+                int cur = tmpX % 10;
+                int tmp = tmpi % 10;
+                
+                tmpX /= 10;
+                tmpi /= 10;
 
                 change += diff[cur][tmp];
-
                 if(change > P) break;
             }
 
