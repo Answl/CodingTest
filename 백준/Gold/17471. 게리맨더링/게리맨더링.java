@@ -67,8 +67,6 @@ public class Main {
         }
 
         //a그룹 - 연결되는지 파악하고 있으면 값 계산
-        boolean flag1 = false, flag2 = false;
-
         boolean[] visited = new boolean[N+1];
         for(int i=1; i<=N; i++){
             if(comb[i]){
@@ -91,10 +89,9 @@ public class Main {
         }
 
         for(int i=1; i<=N; i++){
-            if(visited[i]) flag1 = true;
+            if(visited[i]) return;
         }
 
-        if(flag1) return;
 
         //b그룹 - 나머지 값들도 유효한지 파악
         boolean[] visited2 = new boolean[N+1];
@@ -119,10 +116,8 @@ public class Main {
         }
 
         for(int i=1;i<=N;i++){
-            if(visited2[i]) flag2 = true;
+            if(visited2[i]) return;
         }
-
-        if(flag2) return;
 
 
         //값 계산
