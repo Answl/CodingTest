@@ -18,7 +18,7 @@ public class Main {
 
         Deque<int[]> q = new ArrayDeque<>(); //idx, 값 저장
 
-        int left = -L+1, right = 0;
+        int right = 0;
         while(right<N){
             // 내가 맨 마지막 값이 되도록 offer
             while(true){
@@ -31,13 +31,13 @@ public class Main {
             }
 
             //맨 앞 값이 범위를 벗어나는지 확인
-            if(q.peek()[0]<left) q.poll();
+            if(q.peek()[0]<right-L+1) q.poll();
 
             //맨 앞 값(최소값) print
             sb.append(q.peek()[1]).append(" ");
 
             //다음 윈도우로
-            left++; right++;
+            right++;
         }
 
         System.out.println(sb);
