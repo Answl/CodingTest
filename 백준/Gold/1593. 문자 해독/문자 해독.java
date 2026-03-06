@@ -11,40 +11,31 @@ public class Main {
         int SSize = Integer.parseInt(st.nextToken());
 
         String W = br.readLine(); //52개
-        int[] existingAlpha = new int[52];
+        int[] alpha = new int[52];
 
         for(int i=0; i<W.length(); i++){
-            existingAlpha[num(W.charAt(i))]++;
+            alpha[num(W.charAt(i))]++;
         }
 
         String S = br.readLine();
         int count = 0;
 
-        int left = 0, right = left + WSize-1;
+        int left = 0, right = WSize-1;
 
-        //초기
+        //초기 윈도우
         for(int i=left; i<=right; i++){
-            existingAlpha[num(S.charAt(i))]--;
+            alpha[num(S.charAt(i))]--;
         }
 
-        boolean noCountFlag = false;
         while (true) {
-            for(int e: existingAlpha){
-                if(e<0) {
-                    noCountFlag = true;
-                    break;
-                } else noCountFlag = false;
-            }
-
-            if(!noCountFlag) count++;
+            if(isValid(alpha)) count++;
 
             //다음 단계로 넘어가기
-            existingAlpha[num(S.charAt(left))]++;
-            left ++;
             right ++;
-
             if(right>=SSize) break;
-            existingAlpha[num(S.charAt(right))]--;
+
+            alpha[num(S.charAt(right-WSize))]++;
+            alpha[num(S.charAt(right))]--;
         }
 
         System.out.println(count);
@@ -52,8 +43,15 @@ public class Main {
 
     private static int num(char tmpChar){
         //소문자
-        if('a' <= tmpChar && tmpChar <= 'z') return tmpChar-'A'-6;
+        if('a' <= tmpChar) return tmpChar-'A'-6;
         //대문자
-        else return tmpChar -'A';
+        return tmpChar -'A';
+    }
+
+    private static boolean isValid(int[] alpha){
+        for(int a : alpha){
+            if(a<0) return false;
+        }
+        return true;
     }
 }
