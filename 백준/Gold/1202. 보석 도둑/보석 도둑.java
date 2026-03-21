@@ -22,54 +22,26 @@ public class Main {
 
         Collections.sort(list, (a,b) -> a[0]-b[0]);
 
-//        for(int[] l : list){
-//            System.out.println(Arrays.toString(l));
-//        }
-
         int[] array = new int[K];
         for(int i=0; i<K; i++){
             array[i] = Integer.parseInt(br.readLine());
         }
-
         Arrays.sort(array);
 
-        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b)->{
-            if(a[1]==b[1]) return a[0]-b[0];
-            return -a[1]+b[1];
-        });
-
-//        int total = 0;
-//        int a = 0;
-//        for(int i=0; i<list.size(); i++){
-//            if(a>=K || array[a] < list.get(i)[0]){
-//                a++;
-//                total += pq.poll()[1];
-//                System.out.println(a+" "+total);
-//            }
-//            pq.offer(new int[]{list.get(i)[0], list.get(i)[1]});
-//        }
+        PriorityQueue<Integer> pq = new PriorityQueue<>((a,b)->Integer.compare(b,a));
 
         int tmp = 0;
         long sum = 0;
         for(int a : array){
-            for(int i=tmp; i<list.size(); i++){
-                if(a >= list.get(i)[0]){
-                    pq.offer(new int[]{list.get(i)[0], list.get(i)[1]});
-                    tmp++;
-                } else {
-                    tmp = i;
-                    break;
-                }
+            while(tmp<list.size() && a >= list.get(tmp)[0]){
+                pq.offer(list.get(tmp)[1]);
+                tmp++;
             }
-//            System.out.println(a);
-//            System.out.println(pq);
 
             if(!pq.isEmpty()) {
-//                System.out.println(pq.peek()[1]);
-                sum += pq.poll()[1];
+                sum += pq.poll();
             }
         }
         System.out.println(sum);
-        //System.out.println(total);
     }
 }
