@@ -9,6 +9,7 @@ public class Main {
     private static int[][] num, dp;
     private static int N, M, result = 0;
     private static boolean flag = false;
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -24,7 +25,7 @@ public class Main {
             String str = br.readLine();
             for(int j=0; j<M; j++){
                 if(str.charAt(j) == 'H') num[i][j] = -1; // HOLE
-                else num[i][j] = Integer.parseInt(String.valueOf(str.charAt(j)));
+                else num[i][j] = str.charAt(j) - '0';
             }
         }
 //        System.out.println(Arrays.deepToString(num));
@@ -32,41 +33,35 @@ public class Main {
         visited[0][0] = true;
         dfs(0,0, 0);
 
-        if(flag) result = -1;
-        System.out.println(result);
+        System.out.println(flag? -1 : result);
     }
 
     private static void dfs(int r, int c, int count){
         if(flag) return;
-//        System.out.println("방문 " + r + c + "횟수 " + count);
 
-        for(int i=0; i<4; i++){
-            int nextR = r + dr[i]*num[r][c];
-            int nextC = c + dc[i]*num[r][c];
+        for(int i=0; i<4; i++) {
+            int nextR = r + dr[i] * num[r][c];
+            int nextC = c + dc[i] * num[r][c];
 
-            if(0<=nextR && nextR<N && 0<=nextC && nextC<M
-            ){
-                if(dp[nextR][nextC] >= count+1) continue;
-
-                if(num[nextR][nextC] == -1){
-                    result = Math.max(result, count+1);
-                    continue;
-                }
-
-                if(visited[nextR][nextC]){
-                    flag = true;
-//                    System.out.println("방문 " + r + c + nextR + nextC + "flag " + count);
-                    continue;
-                }
-
-                visited[nextR][nextC] = true;
-                dp[nextR][nextC] = count+1;
-                dfs(nextR, nextC, count+1);
-                visited[nextR][nextC] = false;
-            } else {
-                result = Math.max(result, count+1);
-//                visited[r][c] = false;
+            // 범위 벗어나거나 구멍이면 반환
+            if (!(0 <= nextR && nextR < N && 0 <= nextC && nextC < M) || num[nextR][nextC] == -1) {
+                result = Math.max(result, count + 1);
+                continue; // 다른 탐색으로
             }
+
+            // 현재 값이 dp보다 작으면 안가도됨
+            if (dp[nextR][nextC] >= count + 1) continue;
+
+            // 이미 방문했으면 무한
+            if (visited[nextR][nextC]) {
+                flag = true;
+                return; // 중단
+            }
+
+            visited[nextR][nextC] = true;
+            dp[nextR][nextC] = count + 1;
+            dfs(nextR, nextC, count + 1);
+            visited[nextR][nextC] = false;
         }
     }
 }
