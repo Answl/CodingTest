@@ -1,27 +1,32 @@
 class Solution {
     public long solution(int n, int[] times) {
-        long answer = 0;
-        long max = 0;
-        for (int time : times){
-            max = Math.max(max, time);
+        long answer = Long.MAX_VALUE;
+        
+        long min = Long.MAX_VALUE;
+        for(int time : times){
+            min = Math.min(min, time);
         }
         
-        long s = times[0], e = (long) n * max, mid;
-        // **upper bound는 무조건 “정답이 포함되는 충분히 큰 값”**으로 잡는 게 안전
-        while(s <= e) {
-            mid = (s+e) /2;
-            long sum = 0;
-            for(int time : times) {
-                sum += mid / time;
+        long left = 1;
+        long right = min * n;
+        long mid = 0;
+        
+        while(left <= right){
+            mid = (left + right) / 2;
+            
+            long count = 0;
+            for(int time : times){
+                count += (mid/time);
             }
-            if(sum >= n) {
-                //줄여
-                e = mid -1;
+            
+            if(count < n){
+                left = mid + 1;
+            } else {
                 answer = mid;
-            } else if (sum < n) {
-                s = mid + 1;
+                right = mid - 1;
             } 
         }
+        
         return answer;
     }
 }
