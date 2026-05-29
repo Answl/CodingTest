@@ -1,44 +1,45 @@
 import java.util.*;
 class Solution {
     public int solution(String begin, String target, String[] words) {
-        boolean exists = false;
-        for(String word : words){
-            if(word.equals(target)) {
-                exists = true; break;
+        int answer = 0;
+        
+        //타겟이 워드에 없는 경우
+        boolean flag = false;
+        for(String w : words){
+            if(w.equals(target)) {
+                flag = true;
+                break;
             }
         }
-        if(!exists) return 0; 
-        int size = words.length +1;
+        if(!flag) return 0;
         
-        List<String> wordsList = new ArrayList<>(Arrays.asList(words));
-        wordsList.add(0, begin);
-        
-        Queue<int[]> q = new ArrayDeque<>();
-        boolean[] visited = new boolean[size];
-        q.offer(new int[]{0, 0});
-        visited[0] = true;
-        while(!q.isEmpty()){
-            int[] cur = q.poll();
-            int curWord = cur[0], curStep = cur[1];
-            //System.out.println(wordsList.get(curWord));
-            if(wordsList.get(curWord).equals(target)) return curStep;
+        //있는 경우
+        Queue<int[]> queue = new ArrayDeque<>();
+        queue.add(new int[]{-1, 0});
+        boolean[] visited = new boolean[words.length];
+        while(!queue.isEmpty()){
+            String cur = "";
+            int[] c = queue.poll();
+            if(c[0] == -1) cur = begin;
+            else cur = words[c[0]];
+            //System.out.println(cur + " " + c[1]);
             
-            for(int i=0; i<size; i++){
-                //System.out.println(diffOne(wordsList.get(i), wordsList.get(curWord)));
-                if(diffOne(wordsList.get(i), wordsList.get(curWord)) && !visited[i]){
-                    q.offer(new int[]{i, curStep+1});
-                    visited[curWord] = true;
+            if(cur.equals(target)) return c[1];
+            
+            for(int j=0; j<words.length; j++){
+                int count = 0;
+                
+                if(visited[j]) continue;
+                for(int i=0; i<words[j].length(); i++){
+                    if(words[j].charAt(i)!=cur.charAt(i)) count++;
+                }
+                if(count==1) {
+                    queue.add(new int[]{j, c[1]+1});
+                    visited[j] = true;
                 }
             }
         }
-        return 0;
-    }
-    private boolean diffOne(String s1, String s2){
-        int count = 0;
-        for(int i=0;i<s1.length(); i++){
-            if(s1.charAt(i)!=s2.charAt(i)) count ++;
-            if(count >= 2) return false;
-        }
-        return true;
+        
+        return answer;
     }
 }
