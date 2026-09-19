@@ -1,20 +1,27 @@
 import java.util.*;
+
 class Solution {
-    static String OPEN = "(";
-    static String CLOSE = ")";
     boolean solution(String s) {
+        boolean answer = true;
+        
         Deque<Character> stack = new ArrayDeque<>();
-        for(int i = 0; i<s.length(); i++){
-            //여는거
-            if(OPEN.indexOf(s.charAt(i)) >= 0) stack.push(s.charAt(i));
-            //닫는거 -> 여는짝 있으면 pop
-            else if(CLOSE.indexOf(s.charAt(i)) >= 0){
-                 if(stack.isEmpty() || !isPair(stack.pop(), s.charAt(i))) return false;
+        
+        for(int i=0; i<s.length(); i++){
+            if(stack.isEmpty()){
+                if(s.charAt(i) == ')') return false;
+                stack.push(s.charAt(i));
+            } else {
+                if(isRight(stack.peek(), s.charAt(i))){
+                    stack.pop();
+                } else stack.push(s.charAt(i));
             }
+            //System.out.println(stack);
         }
+
         return stack.isEmpty();
     }
-    private boolean isPair(char a, char b){
-        return OPEN.indexOf(a) == CLOSE.indexOf(b);
+    private boolean isRight(char pk, char now){
+        if(pk == '(') return (now == ')');
+        return false;
     }
 }
