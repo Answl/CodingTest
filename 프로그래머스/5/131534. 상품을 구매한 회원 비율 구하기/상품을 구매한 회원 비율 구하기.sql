@@ -1,18 +1,11 @@
-# -- 코드를 입력하세요
-# select year(SALES_DATE), month(SALES_DATE), count(distinct a.USER_ID)
-# from ONLINE_SALE a join (
-# SELECT USER_ID, count(*)
-# from USER_INFO
-# where year(JOINED) = 2021 ) b on a.USER_ID = b.USER_ID
-# group by year(SALES_DATE), month(SALES_DATE)
-select year(SALES_DATE), month(SALES_DATE), count(distinct b.USER_ID),
-round(count(distinct b.USER_ID) / cc,1) as PUCHASED_RATIO
-from ONLINE_SALE a join
+-- 코드를 입력하세요
+select year(b.SALES_DATE) as year, month(b.SALES_DATE) as month, count(distinct a.USER_ID) as PURCHASED_USERS , round(count(distinct a.USER_ID)/c.count, 1) as PURCHASED_RATIO
+from
 (SELECT USER_ID
-from USER_INFO
-where year(JOINED) = 2021) b
-on a.USER_ID = b.USER_ID join
-(SELECT count(*) as cc
 from USER_INFO 
-where year(JOINED) = 2021) c
-group by year(SALES_DATE), month(SALES_DATE)
+where year(joined) = 2021) a join ONLINE_SALE b on a.USER_ID = b.USER_ID join 
+(SELECT count(distinct USER_ID) as count
+from USER_INFO 
+where year(joined) = 2021) c
+group by year(b.SALES_DATE), month(b.SALES_DATE)
+order by year, month
