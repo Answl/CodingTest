@@ -1,51 +1,29 @@
 import java.util.*;
 class Solution {
+    static int answer = 0;
     public int solution(String[][] clothes) {
-        
-        //초기화
-        HashMap<String, Integer> map = new HashMap<>();
-        for(String[] cloth : clothes){
-            map.put(cloth[1], 0);
+        HashMap<String, List<String>> map = new HashMap<>();
+        for(String[] c : clothes){
+            if(!map.containsKey(c[1])) map.put(c[1], new ArrayList<>());
+            map.get(c[1]).add(c[0]);
         }
         
-        //갯수 넣기
-        for(String[] cloth : clothes){
-            int cur = map.get(cloth[1]);
-            map.replace(cloth[1], cur, cur+1);
+        int[] cloth = new int[map.size()]; int i=0;
+        for(String m : map.keySet()){
+            cloth[i++] = map.get(m).size();
         }
+        System.out.println(Arrays.toString(cloth));
         
-        //시간초과
-//        int answer = 0;
-//         //배열로
-//         int size = map.size();
-//         int[] array = new int[size];
+        comb(cloth, 0, 1);
         
-//         int idx=0;
-//         for(String s : map.keySet()){
-//             array[idx] = map.get(s);
-//             idx++;
-//         }
-//         System.out.println(map);
-//         System.out.println(Arrays.toString(array));
+        return answer-1;
+    }
+    
+    private void comb(int[] cloth, int start, int mul){
+        answer += mul;
         
-//         //조합 만들기 > 비트마스킹으로
-//         for(int i=1; i< 1<<size; i++){
-//             int multi = 1;
-//             for(int j=0; j<size; j++){
-//                 int curIdx = i & (1<<j);
-//                 if(curIdx > 0){
-//                     multi *= array[j];
-//                 }
-//             }
-//             answer += multi;
-//         }
-        
-        //조합 공식
-        int answer = 1;
-        for(int value : map.values()){
-            answer *= (value+1);
+        for(int i=start; i<cloth.length; i++){
+            comb(cloth, i+1, mul*cloth[i]);
         }
-        
-        return answer-1; //1의 경우
     }
 }
